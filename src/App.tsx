@@ -8,7 +8,7 @@ const total: number = 42;
 const items = getNumbers(1, total).map(n => `Item ${n}`);
 
 function getFilteredItems(fromIndex: number, toItem: number): string[] {
-  return [...items].slice(fromIndex, toItem);
+  return items.slice(fromIndex, toItem);
 }
 
 export const App: React.FC = () => {
