@@ -7,10 +7,6 @@ const total: number = 42;
 
 const items = getNumbers(1, total).map(n => `Item ${n}`);
 
-function getFilteredItems(fromIndex: number, toItem: number): string[] {
-  return items.slice(fromIndex, toItem);
-}
-
 export const App: React.FC = () => {
   const [perPage, setPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -19,7 +15,7 @@ export const App: React.FC = () => {
   const fromItem = fromIndex + 1;
   const toItem = Math.min(fromIndex + perPage, total);
   const pageInfo = `Page ${currentPage} (items ${fromItem} - ${toItem} of ${total})`;
-  const selectedItems = getFilteredItems(fromIndex, toItem);
+  const selectedItems = items.slice(fromIndex, toItem);
 
   function handlePageChange(page: number) {
     if (currentPage !== page) {
