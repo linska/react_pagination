@@ -3,18 +3,20 @@ import './App.css';
 import { getNumbers } from './utils';
 import { Pagination } from './components/Pagination';
 
-const total: number = 42;
+const TOTAL_ITEMS = 42;
+const DEFAULT_PER_PAGE = 5;
+const FIRST_PAGE = 1;
 
-const items = getNumbers(1, total).map(n => `Item ${n}`);
+const items = getNumbers(1, TOTAL_ITEMS).map(n => `Item ${n}`);
 
 export const App: React.FC = () => {
-  const [perPage, setPerPage] = useState<number>(5);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(DEFAULT_PER_PAGE);
+  const [currentPage, setCurrentPage] = useState<number>(FIRST_PAGE);
 
   const fromIndex = (currentPage - 1) * perPage;
   const fromItem = fromIndex + 1;
-  const toItem = Math.min(fromIndex + perPage, total);
-  const pageInfo = `Page ${currentPage} (items ${fromItem} - ${toItem} of ${total})`;
+  const toItem = Math.min(fromIndex + perPage, TOTAL_ITEMS);
+  const pageInfo = `Page ${currentPage} (items ${fromItem} - ${toItem} of ${TOTAL_ITEMS})`;
   const selectedItems = items.slice(fromIndex, toItem);
 
   function handlePageChange(page: number) {
@@ -37,7 +39,7 @@ export const App: React.FC = () => {
       </p>
 
       <Pagination
-        total={total}
+        total={TOTAL_ITEMS}
         perPage={perPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}

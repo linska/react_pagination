@@ -1,5 +1,6 @@
 import { getNumbers } from '../../utils';
 import classNames from 'classnames';
+import React from 'react';
 
 interface PaginationProps {
   total: number;
@@ -9,19 +10,26 @@ interface PaginationProps {
   onSelectChange: (perPage: number) => void;
 }
 
-const SelectOptions: number[] = [3, 5, 10, 20];
+const SELECT_OPTIONS = [3, 5, 10, 20];
+const DEFAULT_PER_PAGE = 5;
+const FIRST_PAGE = 1;
 
 export const Pagination = ({
   total,
-  perPage = 5,
-  currentPage = 1,
+  perPage = DEFAULT_PER_PAGE,
+  currentPage = FIRST_PAGE,
   onPageChange,
   onSelectChange,
 }: PaginationProps) => {
   const pageCount = Math.ceil(total / perPage);
   const pageList: number[] = getNumbers(1, pageCount);
 
-  function handlePageChange(page: number) {
+  function handlePageChange(
+    event: React.MouseEvent<HTMLAnchorElement>,
+    page: number,
+  ) {
+    event.preventDefault();
+
     if (page === currentPage) {
       return;
     }
@@ -50,7 +58,7 @@ export const Pagination = ({
             value={perPage}
             onChange={handleSelectChange}
           >
-            {SelectOptions.map(option => (
+            {SELECT_OPTIONS.map(option => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -73,7 +81,7 @@ export const Pagination = ({
             className="page-link"
             href="#prev"
             aria-disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
+            onClick={event => handlePageChange(event, currentPage - 1)}
           >
             «
           </a>
@@ -89,7 +97,7 @@ export const Pagination = ({
               data-cy="pageLink"
               className="page-link"
               href={`#${page}`}
-              onClick={() => handlePageChange(page)}
+              onClick={event => handlePageChange(event, page)}
             >
               {page}
             </a>
@@ -105,7 +113,7 @@ export const Pagination = ({
             className="page-link"
             href="#next"
             aria-disabled={currentPage === pageCount}
-            onClick={() => handlePageChange(currentPage + 1)}
+            onClick={event => handlePageChange(event, currentPage + 1)}
           >
             »
           </a>
